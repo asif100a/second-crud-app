@@ -10,8 +10,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
 
   return (
-    <ThemeContext value={{ colorScheme, setColorScheme, theme }}>
+    <ThemeContext.Provider value={{ colorScheme, setColorScheme, theme }}>
       {children}
-    </ThemeContext>
+    </ThemeContext.Provider>
   );
 };

@@ -6,11 +6,13 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { data } from "@/assets/data/todos";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
+import { ThemeContext } from "@/context/ThemeContext";
+import Octicons from '@expo/vector-icons/Octicons';
 
 export interface TodoTypes {
   id: number;
@@ -23,10 +25,11 @@ export default function Home() {
     data.sort((a, b) => b.id - a.id)
   );
   const [text, setText] = useState<string>("");
-
+  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
   const [loaded, error] = useFonts({
     Inter_500Medium,
   });
+
   if (!loaded && !error) return null;
 
   const addTodo = () => {
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     fontSize: 18,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: "Inter_500Medium",
     minWidth: 0,
     color: "white",
   },
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
   todoText: {
     flex: 1,
     fontSize: 18,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: "Inter_500Medium",
     color: "white",
   },
   completedText: {
