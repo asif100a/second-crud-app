@@ -4,14 +4,13 @@ import {
   TextInput,
   Pressable,
   StyleSheet,
-  FlatList,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { data } from "@/assets/data/todos";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
-import { ThemeContext } from "@/context/ThemeContext";
+import { ColorSchemeTypes, ContextTypes, ThemeContext } from "@/context/ThemeContext";
 import Octicons from "@expo/vector-icons/Octicons";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,7 +28,7 @@ export default function Home() {
   const [text, setText] = useState<string>("");
   const router = useRouter();
 
-  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
+  const { colorScheme, setColorScheme, theme } = useContext<ContextTypes>(ThemeContext);
   const [loaded, error] = useFonts({
     Inter_500Medium,
   });
@@ -94,7 +93,7 @@ export default function Home() {
     router.push(`/todos/${id}`);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: {item: TodoTypes}) => (
     <View style={styles.todoItem}>
       <Pressable
         onPress={() => handlePress(item.id)}
@@ -120,6 +119,7 @@ export default function Home() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          maxLength={20}
           placeholder="Add a new todo"
           placeholderTextColor="gray"
           value={text}
@@ -157,7 +157,7 @@ export default function Home() {
       <Animated.FlatList
         data={todos}
         renderItem={renderItem}
-        keyExtractor={(todo) => todo.id}
+        keyExtractor={(todo: TodoTypes): any => todo.id}
         contentContainerStyle={{ flexGrow: 1 }}
         itemLayoutAnimation={LinearTransition}
         keyboardDismissMode="on-drag"
@@ -168,7 +168,7 @@ export default function Home() {
   );
 }
 
-function createStyles(theme, colorScheme) {
+function createStyles(theme: any, colorScheme: ColorSchemeTypes) {
   return StyleSheet.create({
     container: {
       flex: 1,
